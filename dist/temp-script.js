@@ -3,6 +3,7 @@ const dailyForecast = document.getElementById("daily-forecast")
 const cityInput = document.getElementById("city-input")
 const searchBtn = document.getElementById("search-btn")
 const weeklyForecast = document.getElementById("weekly-forecast")
+const forecastIcon = document.getElementById("forecast-icon")
 const body = document.body
 
 let data = []
@@ -45,6 +46,7 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
     })
     .then((data) => {
       console.log("weather data", data.main.temp)
+      console.log(`${baseURL}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKEY}`)
 
       const timezoneOffset = data.timezone // Timezone offset in seconds
 
@@ -57,6 +59,11 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset, timezoneOffset)}</h3>
       </div>
       <button id="toggle-btn">Show Forecast</button>
+      `
+
+      //This is the dynamic daily weather icon
+      forecastIcon.innerHTML = `
+       <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${capitalFirst(data.weather[0].main)}">
       `
 
 
