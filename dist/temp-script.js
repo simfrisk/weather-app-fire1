@@ -73,7 +73,13 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 
       const ShowForecastBtn = document.getElementById("toggle-btn")
       ShowForecastBtn.addEventListener("click", () => {
-        weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
+        if (!weeklyForecast.classList.contains("toggle-forecast-show")) {
+          weeklyForecast.classList.add("toggle-forecast-show");
+        } else if (weeklyForecast.classList.contains("toggle-forecast-show")) {
+          weeklyForecast.classList.remove("toggle-forecast-show");
+        }
+
+        // weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
         ShowForecastBtn.textContent = weeklyForecast.style.display === "none" ? "Show Forecast" : "Hide Forecast" //We might want to change this to some kind of arrow animation?
       })
     })
@@ -119,7 +125,19 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
         <p>${Math.round(forecast.main.temp)}°C</p>
         </li>`
       })
-      weeklyForecast.style.display = "none"
+
+      // Hide the element
+      weeklyForecast.style.display = "none";
+      weeklyForecast.classList.add("toggle-forecast-hide");
+
+      // After 1 second, show the element again
+      setTimeout(() => {
+        weeklyForecast.style.display = "block";
+      }, 1000)
+
+
+
+
     })
     .catch((error) => {
       weeklyForecast.innerHTML = `<p>${error.message}</p>`
@@ -195,4 +213,6 @@ const updateBackground = (currentTime, sunrise, sunset) => {
 
 
 }
+
+
 
