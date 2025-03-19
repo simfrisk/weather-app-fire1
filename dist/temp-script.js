@@ -178,9 +178,6 @@ getLocation()
 //Function for background and icon
 const updateBackground = (currentTime, sunrise, sunset) => {
 
-
-  console.log("bajskorv")
-
   if (currentTime >= sunrise && currentTime < sunset) {
     body.classList.remove("night")
   } else {
