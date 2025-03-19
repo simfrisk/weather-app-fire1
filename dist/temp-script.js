@@ -1,7 +1,8 @@
 // DOM Elements
-const dailyForecast = document.getElementById("daily-forecast")
+const dailyForecast = document.getElementById("daily-forecast");
+const cityInput = document.getElementById("city-input");
+const searchBtn = document.getElementById("search-btn");
 const weeklyForecast = document.getElementById("weekly-forecast")
-
 
 let data = []
 
@@ -18,7 +19,6 @@ const capitalFirst = (string) => {
 }
 
 
-
 const baseURL = "https://api.openweathermap.org/data/2.5/"
 const apiKEY = "dfd2a92cf6c2789182807260f210958f"
 const apiURL = `${baseURL}weather?q=Stockholm&units=metric&APPID=${apiKEY}`
@@ -29,11 +29,15 @@ const apiURLForecast = `${baseURL}forecast?q=${cityName}&units=metric&appid=${ap
 console.log(`${apiURL} works`)
 console.log(`${apiURLForecast} works`)
 
+const fetchWeather = (city = "Stockholm") => {
+  const apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`;
 
-//Generete elements
-const fetchWeather = () => {
   fetch(apiURL)
-    .then(response => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("The city was not found!");
+      }
+      return response.json();
     .then((data) => {
       console.log("weather data", data.main.temp)
       dailyForecast.innerHTML = `
@@ -44,7 +48,10 @@ const fetchWeather = () => {
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
       `
     })
-}
+    .catch((error) => {
+      dailyForecast.innerHTML = `<p>${error.message}</p>`;
+    });
+};
 
 const fetchForecast = () => {
   fetch(apiURLForecast)
@@ -69,9 +76,17 @@ const fetchForecast = () => {
     )
 }
 
+// Event listener for search button
+searchBtn.addEventListener("click", () => {
+  const city = cityInput.value.trim()
+  if (city) {
+    fetchWeather(city)
+    fetchForecast(city)
+  } else {
+    alert("Try again with a valid city")
+  }
+})
+
+// Fetch weather with Stockholm as start position
 fetchWeather()
-
 fetchForecast()
-
-
-
