@@ -18,7 +18,6 @@
 }
 
 body {
-
   font-family: var(--primary-font);
   background: linear-gradient(45deg, rgba(133, 137, 255, 1) 50%, rgba(232, 233, 255, 1) 100%);
   background-size: cover;
@@ -26,6 +25,7 @@ body {
   background-attachment: fixed;
   color: var(--primary-color);
   margin: 0;
+  max-width: 100vw;
 
 }
 
@@ -52,62 +52,66 @@ body .overcast {
 }
 
 h1 {
-  font-size: 80px;
+  font-size: 4rem;
   font-weight: 300;
   margin: 0;
   justify-self: start;
+  width: 80vmax;
+
 
 }
 
 h2 {
-  font-size: 34;
+  font-size: 1.5rem;
   font-weight: 300;
   margin: 0;
 }
 
 h3 {
-  font-size: 15px;
+  font: .3rem;
   font-weight: 100;
   margin: 0;
 
 }
 
-.sunrise {
-  margin-top: 5em;
-  justify-self: end;
-}
 
-.sunset {
-  margin-top: 1em;
+.top-forecast {
+  display: flex;
+  flex-direction: column;
+  row-gap: .5em;
+
 }
 
 .forecast {
-  width: fit-content;
   padding: 1em;
-  display: grid;
-  grid-template-columns: repeat(auto 2, 1fr);
-  grid-template-rows: 1fr 2fr 1fr;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
 
+  box-sizing: border-box;
 }
 
 .daily-forecast {
-  grid-column: 1 / 2;
-  grid-row: 2/ 3;
   background-color: transparent;
-  flex-shrink: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
   justify-self: center;
-
+  align-content: space-between;
 }
 
 #forecast-icon {
-  height: fit-content;
-  width: fit-content;
-  grid-column: 2/3;
-  grid-row: 1/3;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+#forecast-icon>img {
+
+  transform: scale(75%)
 }
 
 
@@ -115,6 +119,10 @@ h3 {
   border-radius: 75% 75%;
 }
 
+ul {
+  row-gap: 0;
+  padding-inline-start: 0;
+}
 
 #weekly-forecast {
   display: flex;
@@ -122,14 +130,9 @@ h3 {
   background-color: var(--primary-color);
   height: 50vh;
   width: 100vw;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  padding: 20px;
   text-decoration: none;
-  z-index: 2;
   box-sizing: border-box;
+  padding: 1rem;
 }
 
 li img {
@@ -138,8 +141,12 @@ li img {
 }
 
 li {
+  border: solid 2px red;
   display: flex;
+  flex-direction: row;
   text-align: start;
   justify-content: space-around;
   align-items: center;
+  padding: 0;
+  margin: 0;
 }

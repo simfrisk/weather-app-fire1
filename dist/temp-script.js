@@ -51,9 +51,11 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       const timezoneOffset = data.timezone // Timezone offset in seconds
 
       dailyForecast.innerHTML = `
-      <h1 class="current-temp">${data.main.temp.toFixed(0)} <span>C°</span</h1>
-      <h2 class="city">${data.name}</h2>
+      <div class="top-forecast">
+      <h2 class="current-temp">${data.main.temp.toFixed(0)} c°</h2>
+      <h1 class="city">${data.name}</h1>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
+      </div>
       <div class="sun-position">
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise, timezoneOffset)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset, timezoneOffset)}</h3>
