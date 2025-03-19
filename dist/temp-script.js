@@ -71,12 +71,19 @@ const fetchForecast = (city = "Stockholm") => {
         .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
         .slice(1, 5)
       weeklyForecast.innerHTML = ""
+
+
       forecastList.forEach((forecast) => {
         const date = new Date(forecast.dt * 1000)
         const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" })
+
+        const iconCode = forecast.weather[0].icon
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+
         weeklyForecast.innerHTML += `
         <li>
         <p>${forecastDay}</p>
+        <img src="${iconUrl}" alt="${forecast.weather[0].description}">
         <p>${forecast.weather[0].main}</p>
         <p>${Math.round(forecast.main.temp)}°C</p>
         </li>`
