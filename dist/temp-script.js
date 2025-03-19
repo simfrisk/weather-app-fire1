@@ -8,16 +8,39 @@ let data = []
 
 
 //refactor const
-// Convert Unix timestamp to readable time
-const formatTime = (timestamp) => {
-  const date = new Date(timestamp * 1000)
-  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+// Convert Unix timestamp to readable time with timezone
+const formatTime = (timestamp, timezoneOffset) => {
+  const date = new Date((timestamp + timezoneOffset) * 1000)
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })
+}
+
+// Function to get current time in the city's timezone
+const getCurrentTime = (timezoneOffset) => {
+  const timestamp = Math.floor(Date.now() / 1000) // Current Unix timestamp in seconds
+  return formatTime(timestamp, timezoneOffset)
 }
 
 //Capital first letter function
 const capitalFirst = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+// Simon is working on this
+// // Functions
+// //Function for background and icon
+// const updateBackground = (currentTime, sunrise, sunset) => {
+//   const body = document.body // Select the body element
+
+//   if (currentTime >= sunrise && currentTime < sunset) {
+//     body.classList.remove("night")
+//     body.classList.add("day") // Add a "day" class if needed
+//     console.log("day")
+//   } else {
+//     body.classList.remove("day")
+//     body.classList.add("night") // Add a "night" class if needed
+//     console.log("night")
+//   }
+// }
 
 
 const baseURL = "https://api.openweathermap.org/data/2.5/"
@@ -36,16 +59,20 @@ const fetchWeather = (city = "Stockholm") => {
     })
     .then((data) => {
       console.log("weather data", data.main.temp)
+
+      const timezoneOffset = data.timezone // Timezone offset in seconds
+
       dailyForecast.innerHTML = `
       <h1 class="current-temp">${data.main.temp.toFixed(0)} <span>C°</span</h1>
       <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
       <div class="sun-position">
-      <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise)}</h3>
-      <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
+      <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise, timezoneOffset)}</h3>
+      <h3 class="sunset">Sunset ${formatTime(data.sys.sunset, timezoneOffset)}</h3>
       </div>
       <button id="toggle-btn">Show Forecast</button>
       `
+
       const ShowForecastBtn = document.getElementById("toggle-btn")
       ShowForecastBtn.addEventListener("click", () => {
         weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
@@ -67,6 +94,7 @@ const fetchForecast = (city = "Stockholm") => {
       return response.json()
     })
     .then((data) => {
+      const timezoneOffset = data.city.timezone // Timezone offset in seconds
       const forecastList = data.list
         .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
         .slice(1, 5)
