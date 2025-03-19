@@ -111,17 +111,35 @@ h3 {
 }
 
 
+#toggle-Btn {
+  border-radius: 75% 75%;
+}
 
 
-.weekly-forecast {
+#weekly-forecast {
+  display: flex;
   color: var(--septenary-color);
-  display: block;
   background-color: var(--primary-color);
-  height: 320px;
+  height: 50vh;
+  width: 100vw;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
   padding: 20px;
-  position: 30%;
+  text-decoration: none;
+  z-index: 2;
+  box-sizing: border-box;
+}
 
+li img {
+  transform: scale(50%);
+  align-self: end;
+}
+
+li {
+  display: flex;
+  text-align: start;
+  justify-content: space-around;
+  align-items: center;
 }
