@@ -6,6 +6,7 @@ const weeklyForecast = document.getElementById("weekly-forecast")
 
 let data = []
 
+
 //refactor const
 // Convert Unix timestamp to readable time
 const formatTime = (timestamp) => {
@@ -21,13 +22,8 @@ const capitalFirst = (string) => {
 
 const baseURL = "https://api.openweathermap.org/data/2.5/"
 const apiKEY = "dfd2a92cf6c2789182807260f210958f"
-const apiURL = `${baseURL}weather?q=Stockholm&units=metric&APPID=${apiKEY}`
-let cityName = "Stockholm"
 
-const apiURLForecast = `${baseURL}forecast?q=${cityName}&units=metric&appid=${apiKEY}`
 
-console.log(`${apiURL} works`)
-console.log(`${apiURLForecast} works`)
 
 const fetchWeather = (city = "Stockholm") => {
   const apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`;
@@ -38,7 +34,7 @@ const fetchWeather = (city = "Stockholm") => {
         throw new Error("The city was not found!")
       }
       return response.json()
-
+    })
         .then((data) => {
           console.log("weather data", data.main.temp)
           dailyForecast.innerHTML = `
@@ -47,24 +43,33 @@ const fetchWeather = (city = "Stockholm") => {
       <h3 class="weather-description">${capitalFirst(data.weather[0].description)}</h3>
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
+      <button id="toggle-btn">Show Forecast</button>
       `
+      const ShowForecastBtn = document.getElementById("toggle-btn")
+      ShowForecastBtn.addEventListener("click", () => {
+        weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
+        ShowForecastBtn.textContent = weeklyForecast.style.display === "none" ? "Show Forecast" : "Hide Forecast" //We might want to change this to some kind of arrow animation?
         })
-        .catch((error) => {
-          dailyForecast.innerHTML = `<p>${error.message}</p>`
+      })
+        .catch(() => {
+          dailyForecast.innerHTML = `<p>sorry, we have no weather data matching your search, please select another city.</p>`
         })
-    }
-    )
 }
 
-const fetchForecast = () => {
+const fetchForecast = (city = "Stockholm") => {
+  const apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&appid=${apiKEY}`
   fetch(apiURLForecast)
-    .then(response => response.json())
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("The city was not found!")
+    }
+    return response.json()
+  })
     .then((data) => {
-      console.log("forecast data", data)
       const forecastList = data.list
         .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
         .slice(1, 5)
-      console.log(forecastList)
+      weeklyForecast.innerHTML = ""
       forecastList.forEach((forecast) => {
         const date = new Date(forecast.dt * 1000)
         const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" })
@@ -75,8 +80,11 @@ const fetchForecast = () => {
         <p>${Math.round(forecast.main.temp)}°C</p>
         </li>`
       })
-    }
-    )
+      weeklyForecast.style.display = "none"
+    })
+    .catch((error) => {
+      weeklyForecast.innerHTML = `<p>${error.message}</p>`
+    })
 }
 
 // Event listener for search button
@@ -85,8 +93,9 @@ searchBtn.addEventListener("click", () => {
   if (city) {
     fetchWeather(city)
     fetchForecast(city)
+    console.log(city)
   } else {
-    alert("Try again with a valid city")
+    dailyForecast.innerHTML = ""
   }
 })
 
