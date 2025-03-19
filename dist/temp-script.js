@@ -3,6 +3,7 @@ const dailyForecast = document.getElementById("daily-forecast")
 const cityInput = document.getElementById("city-input")
 const searchBtn = document.getElementById("search-btn")
 const weeklyForecast = document.getElementById("weekly-forecast")
+const body = document.body
 
 let data = []
 
@@ -14,33 +15,13 @@ const formatTime = (timestamp, timezoneOffset) => {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })
 }
 
-// Function to get current time in the city's timezone
-const getCurrentTime = (timezoneOffset) => {
-  const timestamp = Math.floor(Date.now() / 1000) // Current Unix timestamp in seconds
-  return formatTime(timestamp, timezoneOffset)
-}
 
 //Capital first letter function
 const capitalFirst = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-// Simon is working on this
-// // Functions
-// //Function for background and icon
-// const updateBackground = (currentTime, sunrise, sunset) => {
-//   const body = document.body // Select the body element
 
-//   if (currentTime >= sunrise && currentTime < sunset) {
-//     body.classList.remove("night")
-//     body.classList.add("day") // Add a "day" class if needed
-//     console.log("day")
-//   } else {
-//     body.classList.remove("day")
-//     body.classList.add("night") // Add a "night" class if needed
-//     console.log("night")
-//   }
-// }
 
 
 const baseURL = "https://api.openweathermap.org/data/2.5/"
@@ -77,6 +58,9 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       </div>
       <button id="toggle-btn">Show Forecast</button>
       `
+
+
+      updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset)
 
       const ShowForecastBtn = document.getElementById("toggle-btn")
       ShowForecastBtn.addEventListener("click", () => {
@@ -151,7 +135,7 @@ const showPosition = (position) => {
 }
 
 const showError = (error) => {
-  switch (error.code){
+  switch (error.code) {
     case error.PERMISSION_DENIED:
       alert("User denied the request for Geolocation.")
       console.log("User denied the request for Geolocation.")
@@ -186,3 +170,18 @@ searchBtn.addEventListener("click", () => {
 
 // Fetch weather with Stockholm as start position
 getLocation()
+
+
+
+
+// Functions
+//Function for background and icon
+const updateBackground = (currentTime, sunrise, sunset) => {
+
+  if (currentTime >= sunrise && currentTime < sunset) {
+  } else {
+    body.classList.add("night")
+  }
+
+}
+
