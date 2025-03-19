@@ -24,8 +24,13 @@ const baseURL = "https://api.openweathermap.org/data/2.5/"
 const apiKEY = "dfd2a92cf6c2789182807260f210958f"
 
 
-const fetchWeather = (city = "Stockholm") => {
-  const apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`
+const fetchWeather = (city = "Stockholm", lat, lon) => {
+  let apiURL = ""
+  if (lat && lon) {
+    apiURL = `${baseURL}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKEY}`
+  } else {
+    apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`
+  }
 
   fetch(apiURL)
     .then((response) => {
@@ -57,8 +62,13 @@ const fetchWeather = (city = "Stockholm") => {
     })
 }
 
-const fetchForecast = (city = "Stockholm") => {
-  const apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&appid=${apiKEY}`
+const fetchForecast = (city = "Stockholm", lat, lon) => {
+  let apiURLForecast = ""
+  if (lat && lon) {
+    apiURLForecast = `${baseURL}forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKEY}`
+  } else {
+    apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&appid=${apiKEY}`
+  }
   fetch(apiURLForecast)
     .then((response) => {
       if (!response.ok) {
@@ -88,6 +98,46 @@ const fetchForecast = (city = "Stockholm") => {
     })
 }
 
+const getLocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError)
+  } else {
+    alert("Geolocation is not supported by this browser.")
+    fetchWeather()
+    fetchForecast()
+  }
+}
+
+const showPosition = (position) => {
+  const lat = position.coords.latitude
+  const lon = position.coords.longitude
+  fetchWeather("", lat, lon)
+  fetchForecast("", lat, lon)
+}
+
+const showError = (error) => {
+  switch (error.code){
+    case error.PERMISSION_DENIED:
+      alert("User denied the request for Geolocation.")
+      console.log("User denied the request for Geolocation.")
+      break
+    case error.POSITION_UNAVAILABLE:
+      alert("Location information is unavailable.")
+      console.log("Location information is unavailable.")
+      break
+    case error.TIMEOUT:
+      alert("The request to get user location timed out.")
+      console.log("The request to get user location timed out.")
+      break
+    case error.UNKNOWN_ERROR:
+      alert("An unknown error occurred.")
+      console.log("An unknown error occurred.")
+      break
+  }
+  fetchWeather()
+  fetchForecast()
+}
+
 // Event listener for search button
 searchBtn.addEventListener("click", () => {
   const city = cityInput.value.trim()
@@ -100,5 +150,4 @@ searchBtn.addEventListener("click", () => {
 })
 
 // Fetch weather with Stockholm as start position
-fetchWeather()
-fetchForecast()
+getLocation()
