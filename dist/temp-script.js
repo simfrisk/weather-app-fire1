@@ -34,36 +34,38 @@ const fetchWeather = (city = "Stockholm") => {
       }
       return response.json()
     })
-        .then((data) => {
-          console.log("weather data", data.main.temp)
-          dailyForecast.innerHTML = `
+    .then((data) => {
+      console.log("weather data", data.main.temp)
+      dailyForecast.innerHTML = `
       <h1 class="current-temp">${data.main.temp.toFixed(0)} <span>C°</span</h1>
       <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
+      <div class="sun-position">
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
+      </div>
       <button id="toggle-btn">Show Forecast</button>
       `
       const ShowForecastBtn = document.getElementById("toggle-btn")
       ShowForecastBtn.addEventListener("click", () => {
         weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
         ShowForecastBtn.textContent = weeklyForecast.style.display === "none" ? "Show Forecast" : "Hide Forecast" //We might want to change this to some kind of arrow animation?
-        })
       })
-        .catch(() => {
-          dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`
-        })
+    })
+    .catch(() => {
+      dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`
+    })
 }
 
 const fetchForecast = (city = "Stockholm") => {
   const apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&appid=${apiKEY}`
   fetch(apiURLForecast)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("The city was not found!")
-    }
-    return response.json()
-  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("The city was not found!")
+      }
+      return response.json()
+    })
     .then((data) => {
       const forecastList = data.list
         .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
