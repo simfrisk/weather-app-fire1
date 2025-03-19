@@ -115,7 +115,7 @@ h3 {
 
 .weekly-forecast {
   color: var(--septenary-color);
-  display: none;
+  display: block;
   background-color: var(--primary-color);
   height: 320px;
   flex-direction: column;

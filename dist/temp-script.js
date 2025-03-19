@@ -35,23 +35,26 @@ const fetchWeather = (city = "Stockholm") => {
   fetch(apiURL)
     .then((response) => {
       if (!response.ok) {
-        throw new Error("The city was not found!");
+        throw new Error("The city was not found!")
       }
-      return response.json();
-    .then((data) => {
-      console.log("weather data", data.main.temp)
-      dailyForecast.innerHTML = `
+      return response.json()
+
+        .then((data) => {
+          console.log("weather data", data.main.temp)
+          dailyForecast.innerHTML = `
       <h1 class="current-temp">${data.main.temp.toFixed(0)} <span>C°</span</h1>
       <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].description)}</h3>
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
       `
-    })
-    .catch((error) => {
-      dailyForecast.innerHTML = `<p>${error.message}</p>`;
-    });
-};
+        })
+        .catch((error) => {
+          dailyForecast.innerHTML = `<p>${error.message}</p>`
+        })
+    }
+    )
+}
 
 const fetchForecast = () => {
   fetch(apiURLForecast)
@@ -59,8 +62,8 @@ const fetchForecast = () => {
     .then((data) => {
       console.log("forecast data", data)
       const forecastList = data.list
-      .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
-      .slice(1, 5)
+        .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
+        .slice(1, 5)
       console.log(forecastList)
       forecastList.forEach((forecast) => {
         const date = new Date(forecast.dt * 1000)
