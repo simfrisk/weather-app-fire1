@@ -1,7 +1,7 @@
 // DOM Elements
-const dailyForecast = document.getElementById("daily-forecast");
-const cityInput = document.getElementById("city-input");
-const searchBtn = document.getElementById("search-btn");
+const dailyForecast = document.getElementById("daily-forecast")
+const cityInput = document.getElementById("city-input")
+const searchBtn = document.getElementById("search-btn")
 const weeklyForecast = document.getElementById("weekly-forecast")
 
 let data = []
@@ -24,9 +24,8 @@ const baseURL = "https://api.openweathermap.org/data/2.5/"
 const apiKEY = "dfd2a92cf6c2789182807260f210958f"
 
 
-
 const fetchWeather = (city = "Stockholm") => {
-  const apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`;
+  const apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`
 
   fetch(apiURL)
     .then((response) => {
@@ -40,7 +39,7 @@ const fetchWeather = (city = "Stockholm") => {
           dailyForecast.innerHTML = `
       <h1 class="current-temp">${data.main.temp.toFixed(0)} <span>C°</span</h1>
       <h2 class="city">${data.name}</h2>
-      <h3 class="weather-description">${capitalFirst(data.weather[0].description)}</h3>
+      <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
       <button id="toggle-btn">Show Forecast</button>
@@ -52,7 +51,7 @@ const fetchWeather = (city = "Stockholm") => {
         })
       })
         .catch(() => {
-          dailyForecast.innerHTML = `<p>sorry, we have no weather data matching your search, please select another city.</p>`
+          dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`
         })
 }
 
@@ -93,9 +92,8 @@ searchBtn.addEventListener("click", () => {
   if (city) {
     fetchWeather(city)
     fetchForecast(city)
-    console.log(city)
   } else {
-    dailyForecast.innerHTML = ""
+    alert("Try again with a valid city")
   }
 })
 
