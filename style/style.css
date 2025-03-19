@@ -29,7 +29,7 @@ body {
 
 }
 
-body .night {
+.night {
   font-family: var(--primary-font);
   background: linear-gradient(45deg, rgba(34, 35, 80, 1) 50%, rgba(98, 100, 163, 1)100%);
   background-size: cover;
