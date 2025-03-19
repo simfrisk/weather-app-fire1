@@ -2,25 +2,35 @@
 const dailyForecast = document.getElementById("daily-forecast");
 const cityInput = document.getElementById("city-input");
 const searchBtn = document.getElementById("search-btn");
+const weeklyForecast = document.getElementById("weekly-forecast")
 
-//Fetch API
+let data = []
 
-//Base URL
-//Key
-//Cordinates
+//refactor const
+// Convert Unix timestamp to readable time
+const formatTime = (timestamp) => {
+  const date = new Date(timestamp * 1000)
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+}
 
-const baseURL = "https://api.openweathermap.org/data/2.5/";
-const apiKEY = "dfd2a92cf6c2789182807260f210958f";
-// const apiURL = `${baseURL}weather?q=Stockholm&units=metric&APPID=${apiKEY}`;
+//Capital first letter function
+const capitalFirst = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
-//Generete elements
 
-//Search function
+const baseURL = "https://api.openweathermap.org/data/2.5/"
+const apiKEY = "dfd2a92cf6c2789182807260f210958f"
+const apiURL = `${baseURL}weather?q=Stockholm&units=metric&APPID=${apiKEY}`
+let cityName = "Stockholm"
+
+const apiURLForecast = `${baseURL}forecast?q=${cityName}&units=metric&appid=${apiKEY}`
+
+console.log(`${apiURL} works`)
+console.log(`${apiURLForecast} works`)
 
 const fetchWeather = (city = "Stockholm") => {
   const apiURL = `${baseURL}weather?q=${city}&units=metric&APPID=${apiKEY}`;
-
-  console.log(`${apiURL} works`);
 
   fetch(apiURL)
     .then((response) => {
@@ -28,43 +38,55 @@ const fetchWeather = (city = "Stockholm") => {
         throw new Error("The city was not found!");
       }
       return response.json();
-    })
     .then((data) => {
-      console.log("weather data", data.main.temp);
-
-      const { temp } = data.main;
-      const { name: cityName } = data;
-      const { description } = data.weather[0];
-      const timezoneOffset = data.timezone;
-      const sunrise = new Date(
-        (data.sys.sunrise + timezoneOffset) * 1000
-      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      const sunset = new Date(
-        (data.sys.sunset + timezoneOffset) * 1000
-      ).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
+      console.log("weather data", data.main.temp)
       dailyForecast.innerHTML = `
-        <h1 class="current-temp">${temp}°C</h1>
-        <h2 class="city">${cityName}</h2>
-        <h3 class="weather-description">${description}</h3>
-        <h3 class="sunrise">Sunrise: ${sunrise}</h3>
-        <h3 class="sunset">Sunset: ${sunset}</h3>
-      `;
+      <h1 class="current-temp">${data.main.temp.toFixed(0)} <span>C°</span</h1>
+      <h2 class="city">${data.name}</h2>
+      <h3 class="weather-description">${capitalFirst(data.weather[0].description)}</h3>
+      <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise)}</h3>
+      <h3 class="sunset">Sunset ${formatTime(data.sys.sunset)}</h3>
+      `
     })
     .catch((error) => {
       dailyForecast.innerHTML = `<p>${error.message}</p>`;
     });
 };
 
+const fetchForecast = () => {
+  fetch(apiURLForecast)
+    .then(response => response.json())
+    .then((data) => {
+      console.log("forecast data", data)
+      const forecastList = data.list
+      .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
+      .slice(1, 5)
+      console.log(forecastList)
+      forecastList.forEach((forecast) => {
+        const date = new Date(forecast.dt * 1000)
+        const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" })
+        weeklyForecast.innerHTML += `
+        <li>
+        <p>${forecastDay}</p>
+        <p>${forecast.weather[0].main}</p>
+        <p>${Math.round(forecast.main.temp)}°C</p>
+        </li>`
+      })
+    }
+    )
+}
+
 // Event listener for search button
 searchBtn.addEventListener("click", () => {
-  const city = cityInput.value.trim();
+  const city = cityInput.value.trim()
   if (city) {
-    fetchWeather(city);
+    fetchWeather(city)
+    fetchForecast(city)
   } else {
-    alert("Try again with a valid city");
+    alert("Try again with a valid city")
   }
-});
+})
 
 // Fetch weather with Stockholm as start position
-fetchWeather();
+fetchWeather()
+fetchForecast()

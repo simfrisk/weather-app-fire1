@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet"
+        href="style/style.css">
+</head>
 
-  <body>
-    <nav class="">
-      <a href="">nav</a>
-    </nav>
-
+<body>
+  <nav class="">
+    <a href="">nav</a>
+  </nav>
+  
     <input type="text" id="city-input" placeholder="Search by city" />
-    <button id="search-btn">Search</button>
+   <button id="search-btn">Search</button>
 
-    <section id="">
-      <div class="daily-forecast" id="daily-forecast"></div>
+  <section id="">
+    <div class="forecast">
+      <div class="daily-forecast"
+           id="daily-forecast">
+      </div>
+      <div id="forecast-icon">
+        <img src="./assets/Icons/sunny.svg"
+             alt="Sunny Icon">
+      </div>
 
-      <div class="weekly-forecast" id="weekly-forecast"></div>
-    </section>
 
-    <script src="dist/script.js"></script>
-    <script src="dist/temp-script.js"></script>
-  </body>
+    </div>
+    </div>
+
+    <div class="weekly-forecast"
+         id="weekly-forecast">
+
+    </div>
+  </section>
+
+  <script src="dist/script.js"></script>
+  <script src="dist/temp-script.js"></script>
+</body>
+
 </html>
+
