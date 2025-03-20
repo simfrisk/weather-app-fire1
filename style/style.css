@@ -236,3 +236,14 @@ li img {
 .toggle-forecast-show {
   transform: translateY(0dvh);
 }
+
+@media (min-width: 475px) {
+  .desktop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}
