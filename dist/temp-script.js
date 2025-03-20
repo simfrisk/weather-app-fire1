@@ -52,8 +52,8 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 
       dailyForecast.innerHTML = `
       <div class="top-forecast">
-      <h2 class="current-temp">${data.main.temp.toFixed(0)} c°</h2>
-      <h1 class="city">${data.name}</h1>
+      <h1 class="current-temp">${data.main.temp.toFixed(0)} c°</h1>
+      <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
       </div>
       <div class="sun-position">

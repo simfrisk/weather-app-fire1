@@ -19,11 +19,9 @@
 
 body {
   font-family: var(--primary-font);
-  background: linear-gradient(
-    45deg,
-    rgba(133, 137, 255, 1) 50%,
-    rgba(232, 233, 255, 1) 100%
-  );
+  background: linear-gradient(45deg,
+      rgba(133, 137, 255, 1) 50%,
+      rgba(232, 233, 255, 1) 100%);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -34,11 +32,9 @@ body {
 
 .night {
   font-family: var(--primary-font);
-  background: linear-gradient(
-    45deg,
-    rgba(34, 35, 80, 1) 50%,
-    rgba(98, 100, 163, 1) 100%
-  );
+  background: linear-gradient(45deg,
+      rgba(34, 35, 80, 1) 50%,
+      rgba(98, 100, 163, 1) 100%);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -48,11 +44,9 @@ body {
 
 body .overcast {
   font-family: var(--primary-font);
-  background: linear-gradient(
-    110deg,
-    rgba(98, 100, 162, 1) 50%,
-    rgba(232, 233, 255, 1) 100%
-  );
+  background: linear-gradient(110deg,
+      rgba(98, 100, 162, 1) 50%,
+      rgba(232, 233, 255, 1) 100%);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -61,7 +55,7 @@ body .overcast {
 }
 
 h1 {
-  font-size: 2.125rem;
+  font-size: 7.5rem;
   font-weight: 300;
   margin: 0;
   justify-self: start;
@@ -69,15 +63,19 @@ h1 {
 }
 
 h2 {
-  font-size: 7.5rem;
+  font-size: 2.125rem;
   font-weight: 300;
   margin: 0;
 }
 
 h3 {
-  font-size: 1.375rem;
+  font-size: 1rem;
   font-weight: 100;
   margin: 0;
+}
+
+nav {
+  box-sizing: border-box;
 }
 
 .search-container {
@@ -101,6 +99,7 @@ h3 {
   flex: 1;
   padding: 0.75rem;
   border: none;
+  outline: none;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.2);
   color: var(--text-color);
@@ -162,7 +161,7 @@ h3 {
   left: 50%;
 }
 
-#forecast-icon > img {
+#forecast-icon>img {
   width: 161.15005493164062px;
   height: 152.02833557128906px;
   object-fit: contain;
@@ -224,4 +223,3 @@ li img {
 .toggle-forecast-show {
   transform: translateY(0dvh);
 }
-
