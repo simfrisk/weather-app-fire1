@@ -30,6 +30,30 @@
 //const baseURL = "https://api.openweathermap.org/data/2.5/"
 //const apiKEY = "dfd2a92cf6c2789182807260f210958f"
 
+const weatherIcons = {
+  "01d": { description: "clear sky (day)", file: "01d.svg" },
+  "01n": { description: "clear sky (night)", file: "01n.svg" },
+  "02d": { description: "few clouds (day)", file: "02d.svg" },
+  "02n": { description: "few clouds (night)", file: "02n.svg" },
+  "03d": { description: "scattered clouds (day)", file: "03d.svg" },
+  "03n": { description: "scattered clouds (night)", file: "03n.svg" },
+  "04d": { description: "broken clouds (day)", file: "04d.svg" },
+  "04n": { description: "broken clouds (night)", file: "04n.svg" },
+  "09d": { description: "shower rain (day)", file: "09d.svg" },
+  "09n": { description: "shower rain (night)", file: "09n.svg" },
+  "10d": { description: "rain (day)", file: "10d.svg" },
+  "10n": { description: "rain (night)", file: "10n.svg" },
+  "11d": { description: "thunderstorm (day)", file: "11d.svg" },
+  "11n": { description: "thunderstorm (night)", file: "11n.svg" },
+  "13d": { description: "snow (day)", file: "13d.svg" },
+  "13n": { description: "snow (night)", file: "13n.svg" },
+  "50d": { description: "mist (day)", file: "50d.svg" },
+  "50n": { description: "mist (night)", file: "50n.svg" }
+};
+function getWeatherDescription(iconCode) {
+  const weather = weatherIcons[iconCode];
+  return weather ? weather.description : "unknown";
+}
 
 const fetchWeather = (city = "Stockholm", lat, lon) => {
   let apiURL = ""
@@ -49,12 +73,15 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
     .then((data) => {
       console.log("weather data", data.main.temp)
       console.log(`${baseURL}weather?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKEY}`)
-
+      const iconCode = data.weather[0].icon;
+      const weather = weatherIcons[iconCode];
+      const iconUrl = `./assets/icons/${weather.file}`;
+      const description = capitalFirst(data.weather[0].main);
       const timezoneOffset = data.timezone // Timezone offset in seconds
 
       dailyForecast.innerHTML = `
       <div class="top-forecast">
-      <h1 class="current-temp">${data.main.temp.toFixed(0)}<sup class="degrees">°C</sup></h1>
+      <h1 class="current-temp">${data.main.temp.toFixed(0)}<sup>°C</sup></h1>
       <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
       </div>
@@ -67,9 +94,11 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 
 
       //This is the dynamic daily weather icon
+
+
       forecastIcon.innerHTML = `
-       <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${capitalFirst(data.weather[0].main)}">
-      `
+        <img src="${iconUrl}" alt="${description}">
+      `;
 
 
       updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset)
@@ -102,13 +131,13 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
         .slice(1, 5)
       weeklyForecast.innerHTML = ""
 
-
       forecastList.forEach((forecast) => {
         const date = new Date(forecast.dt * 1000)
         const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" })
-
-        const iconCode = forecast.weather[0].icon
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+        const iconCode = forecast.weather[0].icon;
+        const weather = weatherIcons[iconCode];
+        const iconUrl = `./assets/icons/${weather.file}`;
+        const description = weather.description;
 
         weeklyForecast.innerHTML += `
         <li>
