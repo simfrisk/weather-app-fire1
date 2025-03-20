@@ -64,13 +64,17 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       </div>
 
       `
+
+
       //This is the dynamic daily weather icon
       forecastIcon.innerHTML = `
        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${capitalFirst(data.weather[0].main)}">
       `
 
+
       updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset)
 
+      // DO NOT attach the event listener here
     })
     .catch(() => {
       dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`
