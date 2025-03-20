@@ -64,52 +64,13 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       </div>
 
       `
-
-
       //This is the dynamic daily weather icon
       forecastIcon.innerHTML = `
        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="${capitalFirst(data.weather[0].main)}">
       `
 
-
       updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset)
 
-      const showForecastBtn = document.getElementById("toggle-btn")
-      showForecastBtn.addEventListener("click", () => {
-        // Disable the button to prevent multiple clicks during animation
-        showForecastBtn.disabled = true
-        const sunPosition = document.getElementById("sun-position")
-
-        if (!weeklyForecast.classList.contains("toggle-forecast-show")) {
-          // Show forecast
-          weeklyForecast.style.display = "block"
-          setTimeout(() => {
-            forecastDiv.classList.add("compact")
-            sunPosition.classList.add("compact-sun")
-            weeklyForecast.classList.add("toggle-forecast-show")
-            showForecastBtn.classList.add("btn-shift");
-
-          }, 5)
-
-          setTimeout(() => {
-            showForecastBtn.textContent = "▼";
-            showForecastBtn.disabled = false; // Re-enable button
-          }, 600)
-        } else {
-          weeklyForecast.classList.remove("toggle-forecast-show")
-          forecastDiv.classList.remove("compact")
-          sunPosition.classList.remove("compact-sun")
-          showForecastBtn.classList.remove("btn-shift");
-          setTimeout(() => {
-            weeklyForecast.style.display = "none"
-          }, 300);
-          setTimeout(() => {
-            showForecastBtn.textContent = "▲"
-            showForecastBtn.disabled = false // Re-enable button
-          }, 300)
-        }
-
-      })
     })
     .catch(() => {
       dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`
@@ -119,9 +80,9 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 const fetchForecast = (city = "Stockholm", lat, lon) => {
   let apiURLForecast = ""
   if (lat && lon) {
-    apiURLForecast = `${baseURL}forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKEY}`
+    apiURLForecast = `${baseURL}forecast?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKEY}`
   } else {
-    apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&appid=${apiKEY}`
+    apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&APPID=${apiKEY}`
   }
   fetch(apiURLForecast)
     .then((response) => {
@@ -209,6 +170,7 @@ const showError = (error) => {
 // Event listener for search button
 searchBtn.addEventListener("click", () => {
   const city = cityInput.value.trim()
+  console.log("Search button clicked, city:", city); // ADD THIS LINE
   if (city) {
     fetchWeather(city)
     fetchForecast(city)
@@ -220,21 +182,49 @@ searchBtn.addEventListener("click", () => {
 // Fetch weather with Stockholm as start position
 getLocation()
 
-
-
-
 // Functions
 //Function for background and icon
 const updateBackground = (currentTime, sunrise, sunset) => {
-
   if (currentTime >= sunrise && currentTime < sunset) {
     body.classList.remove("night")
   } else {
     body.classList.add("night")
   }
-
-
 }
 
+// Attach the event listener for the toggle button OUTSIDE the fetchWeather function
+const showForecastBtn = document.getElementById("toggle-btn")
+showForecastBtn.addEventListener("click", () => {
+  // Disable the button to prevent multiple clicks during animation
+  showForecastBtn.disabled = true
+  const sunPosition = document.getElementById("sun-position")
 
+  if (!weeklyForecast.classList.contains("toggle-forecast-show")) {
+    // Show forecast
+    weeklyForecast.style.display = "block"
+    setTimeout(() => {
+      forecastDiv.classList.add("compact")
+      sunPosition.classList.add("compact-sun")
+      weeklyForecast.classList.add("toggle-forecast-show")
+      showForecastBtn.classList.add("btn-shift");
 
+    }, 5)
+
+    setTimeout(() => {
+      showForecastBtn.textContent = "▼";
+      showForecastBtn.disabled = false; // Re-enable button
+    }, 600)
+  } else {
+    weeklyForecast.classList.remove("toggle-forecast-show")
+    forecastDiv.classList.remove("compact")
+    sunPosition.classList.remove("compact-sun")
+    showForecastBtn.classList.remove("btn-shift");
+    setTimeout(() => {
+      weeklyForecast.style.display = "none"
+    }, 300);
+    setTimeout(() => {
+      showForecastBtn.textContent = "▲"
+      showForecastBtn.disabled = false // Re-enable button
+    }, 300)
+  }
+})
