@@ -5,7 +5,9 @@ const searchBtn = document.getElementById("search-btn")
 const weeklyForecast = document.getElementById("weekly-forecast")
 const forecastIcon = document.getElementById("forecast-icon")
 const forecastDiv = document.getElementById("forecast")
+
 const body = document.body
+
 
 let data = []
 
@@ -57,12 +59,13 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
       </div>
-      <div class="sun-position">
+      <div id="sun-position" class="sun-position">
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise, timezoneOffset)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset, timezoneOffset)}</h3>
       </div>
-      <button id="toggle-btn">▲</button>
+
       `
+
 
       //This is the dynamic daily weather icon
       forecastIcon.innerHTML = `
@@ -72,31 +75,38 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 
       updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset)
 
-      const ShowForecastBtn = document.getElementById("toggle-btn")
-      ShowForecastBtn.addEventListener("click", () => {
+      const showForecastBtn = document.getElementById("toggle-btn")
+      showForecastBtn.addEventListener("click", () => {
         // Disable the button to prevent multiple clicks during animation
-        ShowForecastBtn.disabled = true
+        showForecastBtn.disabled = true
+        const sunPosition = document.getElementById("sun-position")
 
         if (!weeklyForecast.classList.contains("toggle-forecast-show")) {
           // Show forecast
           weeklyForecast.style.display = "block"
           setTimeout(() => {
-            // forecastDiv.classList.add("compact")
+            forecastDiv.classList.add("compact")
+            sunPosition.classList.add("compact-sun")
             weeklyForecast.classList.add("toggle-forecast-show")
+            showForecastBtn.classList.add("btn-shift");
+
           }, 5)
 
           setTimeout(() => {
-            ShowForecastBtn.textContent = "▼";
-            ShowForecastBtn.disabled = false; // Re-enable button
+            showForecastBtn.textContent = "▼";
+            showForecastBtn.disabled = false; // Re-enable button
           }, 600)
         } else {
           weeklyForecast.classList.remove("toggle-forecast-show")
+          forecastDiv.classList.remove("compact")
+          sunPosition.classList.remove("compact-sun")
+          showForecastBtn.classList.remove("btn-shift");
           setTimeout(() => {
             weeklyForecast.style.display = "none"
           }, 300);
           setTimeout(() => {
-            ShowForecastBtn.textContent = "▲"
-            ShowForecastBtn.disabled = false // Re-enable button
+            showForecastBtn.textContent = "▲"
+            showForecastBtn.disabled = false // Re-enable button
           }, 300)
         }
 
@@ -139,9 +149,10 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
         weeklyForecast.innerHTML += `
         <li>
         <p>${forecastDay}</p>
+        <div class="weather-temp">
         <img src="${iconUrl}" alt="${forecast.weather[0].description}">
-        <p>${forecast.weather[0].main}</p>
         <p>${Math.round(forecast.main.temp)}°C</p>
+        </div>
         </li>`
       })
 
