@@ -1,11 +1,30 @@
 .compact {
-  background-color: red;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+  box-sizing: border-box;
+  max-width: 475px;
+  text-align: center;
+  height: 50dvh;
+  margin-top: 0dvh;
+}
+
+.compact-sun {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2rem;
+}
+
+.sunrise {
+  display: inline;
 }
 
 #toggle-btn {
   position: absolute;
   right: 10%;
-  top: 80%;
+  bottom: 5dvh;
   aspect-ratio: 1 - 1;
   height: 50px;
   width: 50px;
@@ -21,5 +40,8 @@
 #toggle-btn:hover {
   background-color: rgb(38, 112, 164);
   transform: scale(1.05);
+}
 
+.btn-shift {
+  top: 50dvh;
 }
