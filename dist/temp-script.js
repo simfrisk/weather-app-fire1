@@ -14,14 +14,14 @@
 //refactor const
 // Convert Unix timestamp to readable time with timezone
 //const formatTime = (timestamp, timezoneOffset) => {
-  //const date = new Date((timestamp + timezoneOffset) * 1000)
-  //return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })
+//const date = new Date((timestamp + timezoneOffset) * 1000)
+//return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", timeZone: "UTC" })
 //}
 
 
 //Capital first letter function
 //const capitalFirst = (string) => {
-  //return string.charAt(0).toUpperCase() + string.slice(1)
+//return string.charAt(0).toUpperCase() + string.slice(1)
 //}
 
 
@@ -54,7 +54,7 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 
       dailyForecast.innerHTML = `
       <div class="top-forecast">
-      <h1 class="current-temp">${data.main.temp.toFixed(0)} c°</h1>
+      <h1 class="current-temp">${data.main.temp.toFixed(0)}<sup class="degrees">°C</sup></h1>
       <h2 class="city">${data.name}</h2>
       <h3 class="weather-description">${capitalFirst(data.weather[0].main)}</h3>
       </div>
