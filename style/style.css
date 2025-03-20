@@ -27,7 +27,7 @@ body {
   background-attachment: fixed;
   color: var(--primary-color);
   margin: 0;
-  max-width: 100vw;
+  row-gap: 2rem;
 }
 
 .night {
@@ -75,7 +75,12 @@ h3 {
 }
 
 nav {
+  display: flex;
   box-sizing: border-box;
+  width: 100dvw;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .search-container {
@@ -83,12 +88,14 @@ nav {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+
   padding: 1rem 0.5rem 0rem 0.5rem;
   z-index: 10;
   display: flex;
   gap: 0.5rem;
   transition: transform 0.3s ease;
+  width: min-content;
+
 }
 
 .search-container.active {
@@ -97,14 +104,15 @@ nav {
 
 #city-input {
   flex: 1;
-  padding: 0.75rem;
+  text-indent: 1rem;
   border: none;
   outline: none;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.2);
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: .75rem;
   font-family: var(--primary-font);
+  width: 65dvw;
 }
 
 #city-input::placeholder {
@@ -112,15 +120,15 @@ nav {
 }
 
 #search-btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 0.5rem;
   border: none;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.5);
   color: var(--text-color);
-  font-weight: bold;
   cursor: pointer;
   transition: background 0.2s ease;
   font-family: var(--primary-font);
+  font-size: .75rem;
 }
 
 #search-btn:hover {
@@ -131,6 +139,7 @@ nav {
   display: flex;
   flex-direction: column;
   row-gap: 0.5em;
+  margin-bottom: 4rem;
 }
 
 .forecast {
@@ -139,7 +148,7 @@ nav {
   flex-direction: column;
   width: 100%;
   flex: 1;
-
+  position: relative;
   box-sizing: border-box;
 }
 
@@ -156,18 +165,20 @@ nav {
 }
 
 #forecast-icon {
-  position: relative;
-  top: 20px;
-  left: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  box-sizing: border-box;
 }
 
 #forecast-icon>img {
   width: 161.15005493164062px;
   height: 152.02833557128906px;
   object-fit: contain;
+  background: none;
 }
 
-#toggle-Btn {
+#toggle-Btn input {
   border-radius: 75% 75%;
 }
 
