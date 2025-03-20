@@ -4,6 +4,7 @@ const cityInput = document.getElementById("city-input")
 const searchBtn = document.getElementById("search-btn")
 const weeklyForecast = document.getElementById("weekly-forecast")
 const forecastIcon = document.getElementById("forecast-icon")
+const forecastDiv = document.getElementById("forecast")
 const body = document.body
 
 let data = []
@@ -60,7 +61,7 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
       <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise, timezoneOffset)}</h3>
       <h3 class="sunset">Sunset ${formatTime(data.sys.sunset, timezoneOffset)}</h3>
       </div>
-      <button id="toggle-btn">Show Forecast</button>
+      <button id="toggle-btn">▲</button>
       `
 
       //This is the dynamic daily weather icon
@@ -80,11 +81,12 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
           // Show forecast
           weeklyForecast.style.display = "block"
           setTimeout(() => {
+            // forecastDiv.classList.add("compact")
             weeklyForecast.classList.add("toggle-forecast-show")
           }, 5)
 
           setTimeout(() => {
-            ShowForecastBtn.textContent = "Hide Forecast";
+            ShowForecastBtn.textContent = "▼";
             ShowForecastBtn.disabled = false; // Re-enable button
           }, 600)
         } else {
@@ -93,14 +95,11 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
             weeklyForecast.style.display = "none"
           }, 300);
           setTimeout(() => {
-            ShowForecastBtn.textContent = "Show Forecast"
+            ShowForecastBtn.textContent = "▲"
             ShowForecastBtn.disabled = false // Re-enable button
           }, 300)
         }
 
-
-        // weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
-        ShowForecastBtn.textContent = weeklyForecast.style.display === "none" ? "Show Forecast" : "Hide Forecast" //We might want to change this to some kind of arrow animation?
       })
     })
     .catch(() => {
@@ -149,13 +148,6 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
       // Hide the element
       weeklyForecast.style.display = "none";
       weeklyForecast.classList.add("toggle-forecast-hide");
-
-      // After 1 second, show the element again
-      setTimeout(() => {
-        weeklyForecast.style.display = "block";
-      }, 300)
-
-
 
 
     })

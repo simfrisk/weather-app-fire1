@@ -1,0 +1,25 @@
+.compact {
+  background-color: red;
+}
+
+#toggle-btn {
+  position: absolute;
+  right: 10%;
+  top: 80%;
+  aspect-ratio: 1 - 1;
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+  background-color: rgb(34, 96, 141);
+  font-size: 1.2rem;
+  color: white;
+  border: none;
+  z-index: 2;
+
+}
+
+#toggle-btn:hover {
+  background-color: rgb(38, 112, 164);
+  transform: scale(1.05);
+
+}

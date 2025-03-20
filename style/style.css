@@ -27,7 +27,7 @@ body {
   background-attachment: fixed;
   color: var(--primary-color);
   margin: 0;
-  row-gap: 2rem;
+
 }
 
 .night {
@@ -55,7 +55,7 @@ body .overcast {
 }
 
 h1 {
-  font-size: 7.5rem;
+  font-size: 5rem;
   font-weight: 300;
   margin: 0;
   justify-self: start;
@@ -75,23 +75,16 @@ h3 {
 }
 
 nav {
-  display: flex;
   box-sizing: border-box;
   width: 100dvw;
   align-items: center;
-  justify-content: center;
-
 }
 
 .search-container {
   display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-
+  justify-content: space-around;
   padding: 1rem 0.5rem 0rem 0.5rem;
-  z-index: 10;
-  display: flex;
+  align-self: center;
   gap: 0.5rem;
   transition: transform 0.3s ease;
   width: min-content;
@@ -113,6 +106,7 @@ nav {
   font-size: .75rem;
   font-family: var(--primary-font);
   width: 65dvw;
+  padding: .5rem;
 }
 
 #city-input::placeholder {
@@ -139,7 +133,7 @@ nav {
   display: flex;
   flex-direction: column;
   row-gap: 0.5em;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
 .forecast {
@@ -150,6 +144,8 @@ nav {
   flex: 1;
   position: relative;
   box-sizing: border-box;
+  max-width: 475px;
+
 }
 
 .daily-forecast {
@@ -160,8 +156,8 @@ nav {
   justify-content: start;
   align-items: start;
   justify-self: center;
-  align-content: space-between;
   height: 50dvh;
+  width: 50dvw;
 }
 
 #forecast-icon {
@@ -172,15 +168,11 @@ nav {
 }
 
 #forecast-icon>img {
-  width: 161.15005493164062px;
-  height: 152.02833557128906px;
+
   object-fit: contain;
   background: none;
 }
 
-#toggle-Btn input {
-  border-radius: 75% 75%;
-}
 
 #weekly-forecast {
   display: flex;
@@ -201,16 +193,16 @@ ul {
   height: 100%;
   padding: 0;
   margin: 0;
+  row-gap: 2rem;
 }
 
 li {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   flex-grow: 1;
-  padding: 0 1rem;
   height: 25%;
 }
 
