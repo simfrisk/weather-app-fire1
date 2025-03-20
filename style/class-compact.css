@@ -4,17 +4,20 @@
   flex-direction: column;
   width: 100%;
   flex: 1;
+  justify-content: start;
   box-sizing: border-box;
   max-width: 475px;
-  text-align: center;
   height: 50dvh;
-  margin-top: 0dvh;
+
+  transform: scale(75%);
+  align-content: start;
 }
 
 .compact-sun {
   display: flex;
   flex-direction: row;
   column-gap: 2rem;
+  margin-top: none;
 }
 
 .sunrise {
@@ -29,16 +32,17 @@
   height: 50px;
   width: 50px;
   border-radius: 100px;
-  background-color: rgb(34, 96, 141);
+  background-color: rgb(98, 100, 162);
   font-size: 1.2rem;
   color: white;
   border: none;
   z-index: 2;
 
+
 }
 
 #toggle-btn:hover {
-  background-color: rgb(38, 112, 164);
+  background-color: rgb(98, 100, 162);
   transform: scale(1.05);
 }
 
