@@ -93,7 +93,7 @@ nav {
   gap: 0.5rem;
   transition: transform 0.3s ease;
   width: min-content;
-
+  max-width: 475px;
 }
 
 .search-container.active {
@@ -163,7 +163,6 @@ nav {
   flex-direction: column;
   justify-content: start;
   align-items: start;
-
   height: 50dvh;
   width: 50dvw;
 }
@@ -196,6 +195,7 @@ nav {
   padding: 1rem;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  max-width: 475px;
 }
 
 .weather-temp {
