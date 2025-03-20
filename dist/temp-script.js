@@ -73,11 +73,31 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
 
       const ShowForecastBtn = document.getElementById("toggle-btn")
       ShowForecastBtn.addEventListener("click", () => {
+        // Disable the button to prevent multiple clicks during animation
+        ShowForecastBtn.disabled = true
+
         if (!weeklyForecast.classList.contains("toggle-forecast-show")) {
-          weeklyForecast.classList.add("toggle-forecast-show");
-        } else if (weeklyForecast.classList.contains("toggle-forecast-show")) {
-          weeklyForecast.classList.remove("toggle-forecast-show");
+          // Show forecast
+          weeklyForecast.style.display = "block"
+          setTimeout(() => {
+            weeklyForecast.classList.add("toggle-forecast-show")
+          }, 5)
+
+          setTimeout(() => {
+            ShowForecastBtn.textContent = "Hide Forecast";
+            ShowForecastBtn.disabled = false; // Re-enable button
+          }, 600)
+        } else {
+          weeklyForecast.classList.remove("toggle-forecast-show")
+          setTimeout(() => {
+            weeklyForecast.style.display = "none"
+          }, 300);
+          setTimeout(() => {
+            ShowForecastBtn.textContent = "Show Forecast"
+            ShowForecastBtn.disabled = false // Re-enable button
+          }, 300)
         }
+
 
         // weeklyForecast.style.display = weeklyForecast.style.display === "none" ? "block" : "none"
         ShowForecastBtn.textContent = weeklyForecast.style.display === "none" ? "Show Forecast" : "Hide Forecast" //We might want to change this to some kind of arrow animation?
@@ -133,7 +153,7 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
       // After 1 second, show the element again
       setTimeout(() => {
         weeklyForecast.style.display = "block";
-      }, 1000)
+      }, 300)
 
 
 

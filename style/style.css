@@ -209,7 +209,7 @@ li img {
 
 .toggle-forecast,
 .toggle-forecast-hide {
-  transition: transform 1s ease;
+  transition: transform .7s ease;
 }
 
 .toggle-forecast {
