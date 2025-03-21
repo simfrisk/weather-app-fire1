@@ -246,6 +246,34 @@ li {
   transform: translateY(0dvh);
 }
 
+
+/* slow loading */ 
+.loader {
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 3s linear infinite;
+  margin: auto;
+  display: none; /* Hide loader by default */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Show loader when loading class is added */
+.loading .loader {
+  display: block;
+  
 .compact {
   padding: 1em;
   display: flex;
@@ -292,4 +320,5 @@ li {
 
 .btn-shift {
   top: 50dvh;
+
 }
