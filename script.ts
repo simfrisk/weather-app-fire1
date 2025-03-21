@@ -2,15 +2,15 @@ const baseURL: string = "https://api.openweathermap.org/data/2.5/"
 const apiKEY: string = "dfd2a92cf6c2789182807260f210958f"
 
 // DOM Elements
-const dailyForecast = document.getElementById("daily-forecast") as HTMLElement | null
-const cityInput = document.getElementById("city-input") as HTMLElement | null
-const searchBtn = document.getElementById("search-btn") as HTMLElement | null
-const weeklyForecast = document.getElementById("weekly-forecast") as HTMLElement | null
-const forecastIcon = document.getElementById("forecast-icon") as HTMLElement | null
-const forecastDiv = document.getElementById("forecast") as HTMLElement | null
-const body = document.body as HTMLBodyElement | null
-
-let data: any[] = []
+const dailyForecast = document.getElementById("daily-forecast") as HTMLElement;
+const cityInput = document.getElementById("city-input") as HTMLElement;
+const searchBtn = document.getElementById("search-btn") as HTMLElement;
+const weeklyForecast = document.getElementById("weekly-forecast") as HTMLElement;
+const forecastIcon = document.getElementById("forecast-icon") as HTMLElement;
+const forecastDiv = document.getElementById("forecast") as HTMLElement;
+const showForecastBtn = document.getElementById("toggle-btn") as HTMLButtonElement;
+const body = document.body as HTMLBodyElement;
+let data: any[] = [];
 
 //Convert Unix timestamp to readable time with timezone
 const formatTime = (timestamp: number, timezoneOffset: number): string => {
@@ -21,7 +21,7 @@ const formatTime = (timestamp: number, timezoneOffset: number): string => {
 //Capital first letter function
 const capitalFirst = (string: string): string => {
   return string.charAt(0).toUpperCase() + string.slice(1)
-}
+};
 
 type WeatherIconCode =
   | "01d" | "01n"
@@ -91,3 +91,164 @@ const fetchWeather = (
       dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`;
     });
 };
+
+const dayForecast = (data: any): void => {
+  const iconCode = data.weather[0].icon;
+  const weather = weatherIcons[iconCode as keyof typeof weatherIcons];
+  const iconUrl = `./assets/icons/${weather.file}`;
+  const description = capitalFirst(data.weather[0].main);
+  const timezoneOffset = data.timezone;
+
+  dailyForecast.innerHTML = `
+  <div class="top-forecast">
+    <h1 class="current-temp">${data.main.temp.toFixed(0)}<sup>°C</sup></h1>
+    <h2 class="city">${data.name}</h2>
+    <h3 class="weather-description">${description}</h3>
+  </div>
+  <div id="sun-position" class="sun-position">
+    <h3 class="sunrise">Sunrise ${formatTime(data.sys.sunrise, timezoneOffset)}</h3>
+    <h3 class="sunset">Sunset ${formatTime(data.sys.sunset, timezoneOffset)}</h3>
+  </div>
+`;
+
+  forecastIcon.innerHTML = `<img src="${iconUrl}" alt="${description}">`;
+};
+
+
+const fetchForecast = (
+  city: string = "Stockholm",
+  lat?: number,
+  lon?: number): void => {
+  let apiURLForecast: string;
+  if (lat !== undefined && lon !== undefined) {
+    apiURLForecast = `${baseURL}forecast?lat=${lat}&lon=${lon}&units=metric&APPID=${apiKEY}`;
+  } else {
+    apiURLForecast = `${baseURL}forecast?q=${city}&units=metric&APPID=${apiKEY}`;
+  }
+
+  fetch(apiURLForecast)
+    .then((response) => {
+      if (!response.ok) throw new Error("The city was not found!");
+      return response.json();
+    })
+    .then((data) => {
+      const timezoneOffset = data.city.timezone;
+
+      const forecastList = data.list
+        .filter((forecast: any) => forecast.dt_txt.endsWith("12:00:00"))
+        .slice(0, 4);
+
+      weeklyForecast.innerHTML = "";
+
+      forecastList.forEach((forecast: any) => {
+        const date = new Date(forecast.dt * 1000);
+        const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" });
+        const iconCode = forecast.weather[0].icon;
+        const weather = weatherIcons[iconCode as keyof typeof weatherIcons];
+        const iconUrl = `./assets/icons/${weather.file}`;
+
+        weeklyForecast.innerHTML += `
+          <li>
+            <p>${forecastDay}</p>
+            <div class="weather-temp">
+              <img src="${iconUrl}" alt="${forecast.weather[0].description}">
+              <p>${Math.round(forecast.main.temp)}°C</p>
+            </div>
+          </li>`;
+      });
+
+      weeklyForecast.style.display = "none";
+      weeklyForecast.classList.add("toggle-forecast-hide");
+    })
+    .catch((error) => {
+      weeklyForecast.innerHTML = `<p>${error.message}</p>`;
+    });
+};
+
+const getLocation = (): void => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+    fetchWeather();
+    fetchForecast();
+  }
+};
+
+const showPosition = (position: GeolocationPosition): void => {
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+  fetchWeather(undefined, lat, lon);
+  fetchForecast(undefined, lat, lon);
+};
+
+const showError = (error: GeolocationPositionError): void => {
+  switch (error.code) {
+    case error.PERMISSION_DENIED:
+      alert("User denied the request for Geolocation.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+      alert("The request to get user location timed out.");
+      break;
+  }
+  fetchWeather();
+  fetchForecast();
+};
+
+
+searchBtn.addEventListener("click", (): void => {
+  const city = (cityInput as HTMLInputElement | null)?.value.trim();
+  if (city) {
+    fetchWeather(city);
+    fetchForecast(city);
+  } else {
+    alert("Try again with a valid city");
+  }
+});
+
+getLocation();
+
+const updateBackground = (currentTime: number, sunrise: number, sunset: number): void => {
+  if (currentTime >= sunrise && currentTime < sunset) {
+    body.classList.remove("night");
+  } else {
+    body.classList.add("night");
+  }
+};
+
+showForecastBtn.addEventListener("click", (): void => {
+  showForecastBtn.disabled = true;
+  const sunPosition = document.getElementById("sun-position") as HTMLElement;
+
+  if (!weeklyForecast.classList.contains("toggle-forecast-show")) {
+    weeklyForecast.style.display = "block";
+    setTimeout(() => {
+      forecastDiv.classList.add("compact");
+      sunPosition.classList.add("compact-sun");
+      weeklyForecast.classList.add("toggle-forecast-show");
+      showForecastBtn.classList.add("btn-shift");
+    }, 5);
+
+    setTimeout(() => {
+      showForecastBtn.textContent = "▼";
+      showForecastBtn.disabled = false;
+    }, 600);
+  } else {
+    weeklyForecast.classList.remove("toggle-forecast-show");
+    forecastDiv.classList.remove("compact");
+    sunPosition.classList.remove("compact-sun");
+    showForecastBtn.classList.remove("btn-shift");
+
+    setTimeout(() => {
+      weeklyForecast.style.display = "none";
+    }, 300);
+
+    setTimeout(() => {
+      showForecastBtn.textContent = "▲";
+      showForecastBtn.disabled = false;
+    }, 300);
+  }
+});
