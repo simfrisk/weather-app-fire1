@@ -9,6 +9,7 @@ const weeklyForecast = document.getElementById("weekly-forecast") as HTMLElement
 const forecastIcon = document.getElementById("forecast-icon") as HTMLElement;
 const forecastDiv = document.getElementById("forecast") as HTMLElement;
 const showForecastBtn = document.getElementById("toggle-btn") as HTMLButtonElement;
+const weekBtn = document.getElementById("week-btn") as HTMLDivElement;
 const body = document.body as HTMLBodyElement;
 let data: any[] = [];
 
@@ -229,7 +230,7 @@ showForecastBtn.addEventListener("click", (): void => {
       forecastDiv.classList.add("compact");
       sunPosition.classList.add("compact-sun");
       weeklyForecast.classList.add("toggle-forecast-show");
-      showForecastBtn.classList.add("btn-shift");
+      weekBtn.classList.add("btn-shift");
     }, 5);
 
     setTimeout(() => {
@@ -240,7 +241,7 @@ showForecastBtn.addEventListener("click", (): void => {
     weeklyForecast.classList.remove("toggle-forecast-show");
     forecastDiv.classList.remove("compact");
     sunPosition.classList.remove("compact-sun");
-    showForecastBtn.classList.remove("btn-shift");
+    weekBtn.classList.remove("btn-shift");
 
     setTimeout(() => {
       weeklyForecast.style.display = "none";
