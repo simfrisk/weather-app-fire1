@@ -236,12 +236,12 @@ li {
 
 .toggle-forecast {
   transform: translateY(10dv);
- 
+
 }
 
 .toggle-forecast-hide {
   transform: translateY(100dvh);
- 
+
 }
 
 .toggle-forecast-show {
@@ -250,7 +250,7 @@ li {
 }
 
 
-/* slow loading */ 
+/* slow loading */
 .loader {
   border: 8px solid rgba(255, 255, 255, 0.3);
   border-top: 16px solid blue;
@@ -262,22 +262,25 @@ li {
   height: 100px;
   animation: spin 3s linear infinite;
   margin: auto;
-  display: none; /* Hide loader by default */
+  display: none;
+  /* Hide loader by default */
 }
 
 @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 /* Show loader when loading class is added */
 .loading .loader {
   display: block;
 }
-  
+
 .compact {
   padding: 1em;
   display: flex;
@@ -302,26 +305,32 @@ li {
   display: inline;
 }
 
+#week-btn {
+  position: fixed;
+  display: flex;
+  align-items: flex-start;
+  bottom: 20px;
+  right: calc(50% - 170px);
+  transition: transform 0.5s ease;
+}
+
+.btn-shift {
+  transform: translateY(-47dvh);
+}
+
 #toggle-btn {
-  position: absolute;
-  right: 10%;
-  bottom: 5dvh;
-  aspect-ratio: 1 - 1;
   height: 50px;
   width: 50px;
-  border-radius: 100px;
+  border-radius: 50%;
   background-color: rgb(98, 100, 162);
   font-size: 1.2rem;
   color: white;
   border: none;
+  cursor: pointer;
   z-index: 2;
 }
 
 #toggle-btn:hover {
-  background-color: rgb(98, 100, 162);
+  background-color: rgb(120, 122, 182);
   transform: scale(1.05);
-}
-
-.btn-shift {
-  top: 50dvh;
 }

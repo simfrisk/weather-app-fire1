@@ -9,19 +9,9 @@ const weeklyForecast = document.getElementById("weekly-forecast");
 const forecastIcon = document.getElementById("forecast-icon");
 const forecastDiv = document.getElementById("forecast");
 const showForecastBtn = document.getElementById("toggle-btn");
+const weekBtn = document.getElementById("week-btn");
 const body = document.body;
 let data = [];
-
-// Show loader when the page is loading
-document.addEventListener("DOMContentLoaded", function() {
-  document.body.classList.add('loading');
-});
-
-// Hide loader when the page has finished loading
-window.addEventListener("load", function() {
-  document.body.classList.remove('loading');
-});
-
 //Convert Unix timestamp to readable time with timezone
 const formatTime = (timestamp, timezoneOffset) => {
     const date = new Date((timestamp + timezoneOffset) * 1000);
@@ -65,17 +55,17 @@ const fetchWeather = (city = "Stockholm", lat, lon) => {
     }
     fetch(apiURL)
         .then((response) => {
-            if (!response.ok)
-                throw new Error("The city was not found!");
-            return response.json();
-        })
+        if (!response.ok)
+            throw new Error("The city was not found!");
+        return response.json();
+    })
         .then((data) => {
-            dayForecast(data);
-            updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset);
-        })
+        dayForecast(data);
+        updateBackground(Date.now() / 1000, data.sys.sunrise, data.sys.sunset);
+    })
         .catch(() => {
-            dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`;
-        });
+        dailyForecast.innerHTML = `<p>Sorry, we have no weather data matching your search, please select another city.</p>`;
+    });
 };
 const dayForecast = (data) => {
     const iconCode = data.weather[0].icon;
@@ -106,23 +96,23 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
     }
     fetch(apiURLForecast)
         .then((response) => {
-            if (!response.ok)
-                throw new Error("The city was not found!");
-            return response.json();
-        })
+        if (!response.ok)
+            throw new Error("The city was not found!");
+        return response.json();
+    })
         .then((data) => {
-            const timezoneOffset = data.city.timezone;
-            const forecastList = data.list
-                .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
-                .slice(0, 4);
-            weeklyForecast.innerHTML = "";
-            forecastList.forEach((forecast) => {
-                const date = new Date(forecast.dt * 1000);
-                const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" });
-                const iconCode = forecast.weather[0].icon;
-                const weather = weatherIcons[iconCode];
-                const iconUrl = `./assets/icons/${weather.file}`;
-                weeklyForecast.innerHTML += `
+        const timezoneOffset = data.city.timezone;
+        const forecastList = data.list
+            .filter((forecast) => forecast.dt_txt.endsWith("12:00:00"))
+            .slice(0, 4);
+        weeklyForecast.innerHTML = "";
+        forecastList.forEach((forecast) => {
+            const date = new Date(forecast.dt * 1000);
+            const forecastDay = date.toLocaleDateString("en-US", { weekday: "short" });
+            const iconCode = forecast.weather[0].icon;
+            const weather = weatherIcons[iconCode];
+            const iconUrl = `./assets/icons/${weather.file}`;
+            weeklyForecast.innerHTML += `
           <li>
             <p>${forecastDay}</p>
             <div class="weather-temp">
@@ -130,13 +120,13 @@ const fetchForecast = (city = "Stockholm", lat, lon) => {
               <p>${Math.round(forecast.main.temp)}°C</p>
             </div>
           </li>`;
-            });
-            weeklyForecast.style.display = "none";
-            weeklyForecast.classList.add("toggle-forecast-hide");
-        })
-        .catch((error) => {
-            weeklyForecast.innerHTML = `<p>${error.message}</p>`;
         });
+        weeklyForecast.style.display = "none";
+        weeklyForecast.classList.add("toggle-forecast-hide");
+    })
+        .catch((error) => {
+        weeklyForecast.innerHTML = `<p>${error.message}</p>`;
+    });
 };
 const getLocation = () => {
     if (navigator.geolocation) {
@@ -197,7 +187,7 @@ showForecastBtn.addEventListener("click", () => {
             forecastDiv.classList.add("compact");
             sunPosition.classList.add("compact-sun");
             weeklyForecast.classList.add("toggle-forecast-show");
-            showForecastBtn.classList.add("btn-shift");
+            weekBtn.classList.add("btn-shift");
         }, 5);
         setTimeout(() => {
             showForecastBtn.textContent = "▼";
@@ -208,7 +198,7 @@ showForecastBtn.addEventListener("click", () => {
         weeklyForecast.classList.remove("toggle-forecast-show");
         forecastDiv.classList.remove("compact");
         sunPosition.classList.remove("compact-sun");
-        showForecastBtn.classList.remove("btn-shift");
+        weekBtn.classList.remove("btn-shift");
         setTimeout(() => {
             weeklyForecast.style.display = "none";
         }, 300);
