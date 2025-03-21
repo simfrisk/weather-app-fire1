@@ -10,6 +10,17 @@ const forecastIcon = document.getElementById("forecast-icon");
 const forecastDiv = document.getElementById("forecast");
 const body = document.body;
 let data = [];
+
+// Show loader when the page is loading
+document.addEventListener("DOMContentLoaded", function() {
+  document.body.classList.add('loading');
+});
+
+// Hide loader when the page has finished loading
+window.addEventListener("load", function() {
+  document.body.classList.remove('loading');
+});
+
 //Convert Unix timestamp to readable time with timezone
 const formatTime = (timestamp, timezoneOffset) => {
     const date = new Date((timestamp + timezoneOffset) * 1000);
