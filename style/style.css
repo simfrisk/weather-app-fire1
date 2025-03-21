@@ -179,7 +179,7 @@ nav {
 }
 
 #weekly-forecast {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
@@ -236,14 +236,17 @@ li {
 
 .toggle-forecast {
   transform: translateY(10dv);
+ 
 }
 
 .toggle-forecast-hide {
   transform: translateY(100dvh);
+ 
 }
 
 .toggle-forecast-show {
   transform: translateY(0dvh);
+  display: block;
 }
 
 
