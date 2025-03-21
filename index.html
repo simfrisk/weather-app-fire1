@@ -3,34 +3,25 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather App</title>
-  <link rel="stylesheet"
-        href="style/style.css">
-  <link rel="stylesheet"
-        href="style/class-compact.css">
+  <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>
   <div class="desktop">
     <nav class="search-container">
-      <input type="text"
-             id="city-input"
-             placeholder="Search by city" />
+      <input type="text" id="city-input" placeholder="Search by city" />
       <button id="search-btn">Search</button>
-
     </nav>
+
     <section id="">
-      <div id="forecast"
-           class="forecast">
+      <div id="forecast" class="forecast">
         <div id="forecast-icon">
         </div>
-        <div class="daily-forecast"
-             id="daily-forecast">
+        <div class="daily-forecast" id="daily-forecast">
         </div>
       </div>
-
 
       <div class="week-button">
         <button id="toggle-btn">▲</button>
@@ -38,16 +29,13 @@
 
       <div class="toggle-forecast">
         <ul id="weekly-forecast">
-
         </ul>
-
-
       </div>
     </section>
   </div>
   <div class="loader"></div>
   <script src="dist/script.js"></script>
-  <script src="dist/temp-script.js"></script>
+
 </body>
 
 </html>
