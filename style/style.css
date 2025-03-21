@@ -273,6 +273,7 @@ li {
 /* Show loader when loading class is added */
 .loading .loader {
   display: block;
+}
   
 .compact {
   padding: 1em;
@@ -320,5 +321,4 @@ li {
 
 .btn-shift {
   top: 50dvh;
-
 }
