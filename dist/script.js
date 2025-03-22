@@ -12,6 +12,19 @@ const showForecastBtn = document.getElementById("toggle-btn");
 const weekBtn = document.getElementById("week-btn");
 const body = document.body;
 let data = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    const bodyElement = document.body;
+    bodyElement.classList.add('loading');
+  
+    // Simulate page load completion
+    window.addEventListener('load', () => {
+      bodyElement.classList.remove('loading');
+    });
+  });
+
+
+
 //Convert Unix timestamp to readable time with timezone
 const formatTime = (timestamp, timezoneOffset) => {
     const date = new Date((timestamp + timezoneOffset) * 1000);

@@ -147,6 +147,7 @@ nav {
   padding: 1em;
   display: flex;
   flex-direction: column;
+  align-content: center;
   width: 80dvw;
   flex: 1;
   box-sizing: border-box;
@@ -310,7 +311,7 @@ li {
   display: flex;
   align-items: flex-start;
   bottom: 20px;
-  right: calc(50% - 170px);
+  right: calc(50% - 150px);
   transition: transform 0.5s ease;
 }
 
