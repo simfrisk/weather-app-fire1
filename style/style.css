@@ -311,8 +311,12 @@ li {
   display: flex;
   align-items: flex-start;
   bottom: 20px;
-  right: calc(50% - 150px);
-  transition: transform 0.5s ease;
+  right: calc(50% - 222px);
+  transition: transform 0.5s cubic-bezier(0, .1, .6, 1) .14s;
+}
+
+#week-btn.slow {
+  transition: transform 0.6s cubic-bezier(0.3, .3, .1, 1) .05s
 }
 
 .btn-shift {
@@ -328,10 +332,16 @@ li {
   color: white;
   border: none;
   cursor: pointer;
-  z-index: 2;
 }
 
 #toggle-btn:hover {
   background-color: rgb(120, 122, 182);
   transform: scale(1.05);
+}
+
+@media (max-width: 470px) {
+
+  #week-btn {
+    right: calc(5%);
+  }
 }

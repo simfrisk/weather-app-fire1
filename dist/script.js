@@ -12,19 +12,6 @@ const showForecastBtn = document.getElementById("toggle-btn");
 const weekBtn = document.getElementById("week-btn");
 const body = document.body;
 let data = [];
-
-document.addEventListener('DOMContentLoaded', function() {
-    const bodyElement = document.body;
-    bodyElement.classList.add('loading');
-  
-    // Simulate page load completion
-    window.addEventListener('load', () => {
-      bodyElement.classList.remove('loading');
-    });
-  });
-
-
-
 //Convert Unix timestamp to readable time with timezone
 const formatTime = (timestamp, timezoneOffset) => {
     const date = new Date((timestamp + timezoneOffset) * 1000);
@@ -200,6 +187,7 @@ showForecastBtn.addEventListener("click", () => {
             forecastDiv.classList.add("compact");
             sunPosition.classList.add("compact-sun");
             weeklyForecast.classList.add("toggle-forecast-show");
+            weekBtn.classList.remove("slow");
             weekBtn.classList.add("btn-shift");
         }, 5);
         setTimeout(() => {
@@ -211,6 +199,7 @@ showForecastBtn.addEventListener("click", () => {
         weeklyForecast.classList.remove("toggle-forecast-show");
         forecastDiv.classList.remove("compact");
         sunPosition.classList.remove("compact-sun");
+        weekBtn.classList.add("slow");
         weekBtn.classList.remove("btn-shift");
         setTimeout(() => {
             weeklyForecast.style.display = "none";

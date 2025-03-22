@@ -230,6 +230,7 @@ showForecastBtn.addEventListener("click", (): void => {
       forecastDiv.classList.add("compact");
       sunPosition.classList.add("compact-sun");
       weeklyForecast.classList.add("toggle-forecast-show");
+      weekBtn.classList.remove("slow")
       weekBtn.classList.add("btn-shift");
     }, 5);
 
@@ -241,6 +242,7 @@ showForecastBtn.addEventListener("click", (): void => {
     weeklyForecast.classList.remove("toggle-forecast-show");
     forecastDiv.classList.remove("compact");
     sunPosition.classList.remove("compact-sun");
+    weekBtn.classList.add("slow");
     weekBtn.classList.remove("btn-shift");
 
     setTimeout(() => {
